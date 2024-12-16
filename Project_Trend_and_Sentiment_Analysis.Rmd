@@ -39,3 +39,29 @@ summary(data)
 # Display the first few rows of the dataset
 head(data)
 ```
+-- Data Cleaning --
+
+```{r}
+# Data Cleaning
+# Remove duplicates and handle missing values
+data <- data %>% distinct() %>% drop_na()
+
+# Ensure the dataset contains a 'created' column
+if (!"created" %in% colnames(data)) {
+  stop("The dataset does not contain a 'created' column. Please ensure the dataset includes a timestamp column for analysis.")
+}
+
+# Rename 'created' to 'datetime' for consistency
+data <- data %>% rename(datetime = created)
+
+# Convert 'datetime' to a proper date-time format
+data <- data %>% mutate(datetime = ymd_hms(datetime))
+
+# Text preprocessing: Remove URLs, hashtags, mentions, and special characters
+data <- data %>% 
+  mutate(text = str_remove_all(text, "http[s]?://\\S+|#\\w+|@\\w+|[^\\w\\s]"))
+
+# Filter tweets mentioning Blackpink or its members
+keywords <- c("Blackpink", "Rose", "Lisa", "Jennie", "Jisoo", "concert")
+data_filtered <- data %>% filter(str_detect(tolower(text), paste(keywords, collapse = "|")))
+```
