@@ -92,3 +92,36 @@ ggplot(time_trend, aes(x = date, y = tweet_count)) +
   theme(plot.title = element_text(hjust = 0.5, size = 16), axis.title = element_text(size = 12))
 
 ```
+
+Insights for Trend Analysis:
+
+From October 28 to October 29, there was a steady increase in mentions of BLACKPINK and its members in tweets, but on October 30, there was a notable uptick in mentions. Discussions on the Itaewon incident and BLACKPINK's choice to go ahead with their Houston show correlate with the spike in activity on October 30. This analogy probably attracted more notice since people's opinions shifted from support to condemnation. By detecting important patterns and feelings, the surge also points to the magnifying impacts of social media, where high-profile events and debates frequently dominate discourse.
+
+-- Sentiment Analysis --
+
+```{r}
+# Perform sentiment analysis on the filtered tweets
+sentiment_scores <- sentiment_by(data_filtered$text)
+data_filtered$sentiment <- sentiment_scores$ave_sentiment
+
+# Categorize sentiment
+data_filtered <- data_filtered %>% 
+  mutate(sentiment_category = case_when(
+    sentiment > 0 ~ "Positive",
+    sentiment < 0 ~ "Negative",
+    TRUE ~ "Neutral"
+  ))
+
+# Sentiment Distribution
+ggplot(data_filtered, aes(x = sentiment_category, fill = sentiment_category)) + 
+  geom_bar() + 
+  labs(title = "Sentiment Distribution of BLACKPINK Tweets", x = "Sentiment", y = "Count") + 
+  scale_fill_manual(values = c("Positive" = "green", "Neutral" = "gray", "Negative" = "red")) + 
+  theme_minimal() + 
+  theme(plot.title = element_text(hjust = 0.5, size = 16), axis.title = element_text(size = 12))
+
+
+```
+Insights for Sentiment Analysis:
+
+Negative attitudes were the most common during this time, according to the sentiment analysis of tweets. Numerous tweets criticized BLACKPINK and their agency for going forward with their Houston show in spite of the Itaewon tragedy. A deeper look reveals that some of the unfavorable tweets seem to be the result of internet trolls escalating criticism. Though they are less common, positive comments show that fans are rooting for the group and praying for the people impacted by the Itaewon event. Since the majority of tweets on the tragedy and BLACKPINK's performance reflected strong thoughts or feelings, neutral sentiment was the least represented.
