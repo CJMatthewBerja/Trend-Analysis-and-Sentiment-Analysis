@@ -1,0 +1,41 @@
+---
+title: "TrendAnalysisSentimentAnalysisProject(Berja, Bibit, Buenvenida)"
+author: "Bibit, Berja, Buenvenida"
+date: "2024-12-16"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+The goal of this research is to investigate popular sentiment toward BLACKPINK and its members throughout a period overlapping with both their Houston concert and the Itaewon tragedy. In particular in which, we want to:
+
+
+1. Recognize how outside events affect mood and activity on social media of the people.
+
+2. Give BLACKPINK's management team useful information on public opinion and involvements.
+
+3. Determine important patterns and feelings to guide public relations management tactics during emergencie situations.
+
+```{r}
+library(tidyverse)
+library(lubridate)
+library(ggplot2)
+library(tidytext)
+library(sentimentr)
+```
+-- Data Loading and Inspection --
+```{r}
+# Load the dataset
+data <- read.csv("/cloud/project/tweetsDF.csv")
+
+# Inspect the structure of the data
+str(data)
+
+# Check for missing values
+summary(data)
+
+# Display the first few rows of the dataset
+head(data)
+```
